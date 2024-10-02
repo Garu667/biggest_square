@@ -5,7 +5,7 @@
 ```
 make
 ```
-## Run the programe
+## Run the program
 ```
 ./script/grid 20 20 1 | ./bsq
 ```
