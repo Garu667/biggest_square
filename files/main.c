@@ -68,5 +68,4 @@ int	main(int ac, char **av)
 	handle_matrix(ft_atoi(tab[0]), ft_strlen(tab[1]), tab);
 	tab++;
 	print_bsq(tab);
-	if (
 }
