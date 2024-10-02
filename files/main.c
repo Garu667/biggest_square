@@ -27,7 +27,7 @@ int	check_tab(char **tab, char *str)
 		j = 0;
 		while (tab[i][j])
 		{
-			if (tab[i][j] != 'o')
+			if (tab[i][j] != manage_str(tab[0], 2))
         cnt = 1;
 			j++;
 		}
