@@ -12,48 +12,61 @@
 
 #include "header.h"
 
-int	check_tab(char **tab, char *str)
+int	check_tab(char **tab, int row, int col)
 {
-  int   i;
-  int   j;
-  int cnt;
-  int row;
+	int	i;
+	int	j;
+	int	cnt;
 
 	i = 1;
-  cnt = 0;
-  row = atoi(str);
+	cnt = 0;
 	while (tab[i])
 	{
 		j = 0;
 		while (tab[i][j])
 		{
 			if (tab[i][j] != manage_str(tab[0], 2))
-        cnt = 1;
+				cnt = 1;
 			j++;
 		}
+		if (j != col)
+			return (1);
 		i++;
 	}
-  if (cnt == 0 || (i - 1) != row)
-    return (1);
-  return (0);
+	if (cnt == 0 || (i - 1) != row)
+		return (1);
+	return (0);
+}
+
+int	ret_error(int nb)
+{
+	if (nb == 1)
+	{
+		write(2, "map error\n", 10);
+		return (2);
+	}
+	return (-1);
 }
 
 int	main(int ac, char **av)
 {
 	char	**tab;
 	char	*str;
+	int		i;
 
-  if (ac > 1)
-    str = get_file(av[1]);
-  else
-    str = get_stdin();
+	i = 1;
+	str = NULL;
+	if (ac > 1)
+		str = get_file(av[i]);
+	else
+		str = get_stdin();
+	if (!str)
+		return (ret_error(1));
 	tab = ft_split(str, "\n");
-	if (check_tab(tab, tab[0]))
-	{
-		write(2, "Wrong Input\n", 12);
-		return (1);
-	}
-  handle_matrix(atoi(tab[0]), ft_strlen(tab[1]), tab);
-  tab++;
+	if (check_tab(tab, ft_atoi(tab[0]), ft_strlen(tab[1])))
+		return (ret_error(1));
+	handle_matrix(ft_atoi(tab[0]), ft_strlen(tab[1]), tab);
+	tab++;
 	print_bsq(tab);
+	if (
 }
