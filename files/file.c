@@ -94,7 +94,7 @@ int	ft_atoi(char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		number = number * 10 + (str[i] - 48);
-		i++;	
+		i++;
 	}
 	return (number * sign);
 }

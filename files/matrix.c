@@ -17,6 +17,8 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (-1);
 	while (str[i])
 		i++;
 	return (i);
@@ -59,6 +61,19 @@ void	fill_matrix(int **matrix, char **tab)
 	}
 }
 
+void	free_mat(int **matrix, int row)
+{
+	int	i;
+
+	i = 0;
+	while (i < row)
+	{
+		free(matrix[i]);
+		i++;
+	}
+	free(matrix);
+}
+
 int	**handle_matrix(int row, int col, char **tab)
 {
 	int	**matrix;
@@ -67,25 +82,6 @@ int	**handle_matrix(int row, int col, char **tab)
 	fill_matrix(matrix, tab);
 	matrix = find_square(matrix, row, col);
 	search_square(matrix, tab, row, col);
-	//free_mat(matrix);
+	free_mat(matrix, row);
 	return (matrix);
-}
-
-void	print_bsq(char **tab)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (tab[i])
-	{
-		j = 0;
-		while (tab[i][j])
-		{
-			ft_putchar(tab[i][j]);
-			j++;
-		}
-		ft_putchar('\n');
-		i++;
-	}
 }

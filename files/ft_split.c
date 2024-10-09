@@ -33,8 +33,9 @@ int	count_word(char *str, char *charset)
 	words = 0;
 	while (str[i])
 	{
-		if ((char_is_sep(str[i + 1], charset) == 1
-				|| str[i + 1] == 0) && (char_is_sep(str[i], charset) == 0))
+		if ((char_is_sep(str[i + 1], charset)
+					|| str[i + 1] == 0)
+					&& (char_is_sep(str[i], charset) == 0))
 			words++;
 		i++;
 	}

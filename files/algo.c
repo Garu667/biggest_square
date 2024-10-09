@@ -12,11 +12,6 @@
 
 #include "header.h"
 
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
 char	*get_stdin(void)
 {
 	char	*str;
@@ -27,22 +22,16 @@ char	*get_stdin(void)
 
 	i = 0;
 	size = 0;
+	bytes_read = 1;
 	str = malloc(1024);
-	if (!str)
-		return (NULL);
 	while (bytes_read > 0)
 	{
-		bytes_read = read(0, str + size, 1024);
+		bytes_read = read(0, (str + size), 1024);
 		size += bytes_read;
 		if (size % 1024 == 0)
 		{
-			new_str = malloc(size + 1024);
-			if (!new_str)
-			{
-				free(str);
-				exit(1);
-			}
 			i = 0;
+			new_str = malloc(size + 1024);
 			while (i < size)
 			{
 				new_str[i] = str[i];
@@ -128,4 +117,23 @@ void	search_square(int **matrix, char **tab, int row, int col)
 		i++;
 	}
 	put_square(tab, pos[0], pos[1], int_max);
+}
+
+void	print_bsq(char **tab)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			write(1, &tab[i][j], 1);
+			j++;
+		}
+		write(1, "\n", 1);
+		i++;
+	}
 }

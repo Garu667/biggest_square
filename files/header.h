@@ -31,12 +31,10 @@ int		**allocate_matrix(int row, int col);
 
 void	fill_matrix(int **matrix, char **tab);
 
+void	free_mat(int **matrix, int row);
+
 int		**handle_matrix(int row, int col, char **tab);
-
-void	print_bsq(char **tab);
 /* algo.c */
-void	ft_putchar(char c);
-
 char	*get_stdin(void);
 
 int		**find_square(int **tab, int row, int col);
@@ -44,6 +42,8 @@ int		**find_square(int **tab, int row, int col);
 void	put_square(char **tab, int x, int y, int int_max);
 
 void	search_square(int **matrix, char **tab, int row, int col);
+
+void	print_bsq(char **tab);
 /* file.c */
 int		get_size(char *filename);
 
@@ -53,7 +53,7 @@ char	manage_str(char *str, int nbr);
 
 int		ft_atoi(char *str);
 
-void	free_mat(int **matrix, int col);
+void	free_mat(int **matrix, int row);
 /* main.c */
 int		check_tab(char **tab, int row, int col);
 

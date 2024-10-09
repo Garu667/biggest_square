@@ -20,6 +20,8 @@ int	check_tab(char **tab, int row, int col)
 
 	i = 1;
 	cnt = 0;
+	if (col == -1)
+		return (1);
 	while (tab[i])
 	{
 		j = 0;
