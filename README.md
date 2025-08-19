@@ -14,3 +14,4 @@ make
 ```
 ./script/better_grid 20 20 . o x | ./bsq
 ```
+@zimzoum29
