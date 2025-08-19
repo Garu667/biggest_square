@@ -1,139 +1,80 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algo1.c                                            :+:      :+:    :+:   */
+/*   algo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmaroudi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ramaroud <ramaroud@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 12:21:21 by rmaroudi          #+#    #+#             */
-/*   Updated: 2024/08/28 19:59:52 by rmaroudi         ###   ########.fr       */
+/*   Created: 2025/07/28 15:36:02 by ramaroud          #+#    #+#             */
+/*   Updated: 2025/07/30 16:51:52 by tigondra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	*get_stdin(void)
+char	*ft_get_params(char *str)
 {
-	char	*str;
-	char	*new_str;
-	ssize_t	bytes_read;
-	size_t	size;
-	size_t	i;
+	char	*params;
+	int		i;	
+	int		j;
 
-	i = 0;
-	size = 0;
-	bytes_read = 1;
-	str = malloc(1024);
-	while (bytes_read > 0)
+	j = 0;
+	i = ft_strlen(str) - 1;
+	params = malloc(sizeof(char) * 4);
+	if (!params)
+		return (NULL);
+	while (i > 0)
 	{
-		bytes_read = read(0, (str + size), 1024);
-		size += bytes_read;
-		if (size % 1024 == 0)
+		if (j < 3)
 		{
-			i = 0;
-			new_str = malloc(size + 1024);
-			while (i < size)
-			{
-				new_str[i] = str[i];
-				i++;
-			}
-			free(str);
-			str = new_str;
-		}
-	}
-	str[size] = '\0';
-	return (str);
-}
-
-int	**find_square(int **tab, int row, int col)
-{
-	int	min_value;
-	int	i;
-	int	j;
-
-	i = row - 2;
-	while (i >= 0)
-	{
-		j = col - 2;
-		while (j >= 0)
-		{
-			if (tab[i][j] != 0)
-			{
-				min_value = tab[i][j + 1];
-				if (tab[i + 1][j] < min_value)
-					min_value = tab[i + 1][j];
-				if (tab[i + 1][j + 1] < min_value)
-					min_value = tab[i + 1][j + 1];
-				tab[i][j] = min_value + 1;
-			}
-			j--;
+			params[j] = str[i];
+			j++;
 		}
 		i--;
 	}
-	return (tab);
+	params[j] = 0;
+	return (params);
 }
 
-void	put_square(char **tab, int x, int y, int int_max)
+void	ft_put_bsq(char **grid, char *params, int *pos, int len)
 {
 	int	i;
 	int	j;
-
-	i = 0;
-	while (i != int_max)
-	{
-		j = 0;
-		while (j != int_max)
-		{
-			tab[x + (i + 1)][y + j] = manage_str(tab[0], 3);
-			j++;
-		}
-		i++;
-	}
-}
-
-void	search_square(int **matrix, char **tab, int row, int col)
-{
-	int	pos[2];
-	int	int_max;
-	int	j;
-	int	i;
 
 	i = 0;
 	j = 0;
-	int_max = 0;
-	while (i < row)
+	while (i < len)
 	{
 		j = 0;
-		while (j < col)
+		while (j < len)
 		{
-			if (matrix[i][j] > int_max)
-			{
-				int_max = matrix[i][j];
-				pos[0] = i;
-				pos[1] = j;
-			}
+			grid[pos[0] - j][pos[1] - i] = params[0];
 			j++;
 		}
 		i++;
 	}
-	put_square(tab, pos[0], pos[1], int_max);
 }
 
-void	print_bsq(char **tab)
+void	ft_init(int *a, int *b, int *c, int *d)
 {
-	int	i;
-	int	j;
+	*a = -1;
+	*b = -1;
+	*c = 0;
+	*d = 0;
+}
 
-	i = 0;
-	while (tab[i])
-	{
-		j = 0;
-		while (tab[i][j])
-		{
-			write(1, &tab[i][j], 1);
-			j++;
-		}
-		write(1, "\n", 1);
-		i++;
-	}
+int	*ft_assign(int *pos, int line, int i, int j)
+{
+	pos[0] = i;
+	pos[1] = j;
+	pos[2] = line;
+	return (pos);
+}
+
+int	ft_if(int i, int j, int *line, int prev)
+{
+	if (i == 0 || j == 0)
+		return (1);
+	else
+		return (ft_min(line[j], line[j - 1], prev) + 1);
 }

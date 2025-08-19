@@ -3,71 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmaroudi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tigondra <tigondra@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/26 14:36:51 by rmaroudi          #+#    #+#             */
-/*   Updated: 2024/08/28 20:00:47 by rmaroudi         ###   ########.fr       */
+/*   Created: 2025/07/30 11:53:55 by tigondra          #+#    #+#             */
+/*   Updated: 2025/07/30 20:11:33 by tigondra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	check_tab(char **tab, int row, int col)
+int	ft_do(char *file)
 {
-	int	i;
-	int	j;
-	int	cnt;
-
-	i = 1;
-	cnt = 0;
-	if (col == -1)
-		return (1);
-	while (tab[i])
+	if (ft_strlen(file) < 9)
+		return (ft_ret_val(1));
+	file = ft_get_stdin();
+	if (!file)
 	{
-		j = 0;
-		while (tab[i][j])
-		{
-			if (tab[i][j] != manage_str(tab[0], 2))
-				cnt = 1;
-			j++;
-		}
-		if (j != col)
-			return (1);
-		i++;
+		free(file);
+		return (ft_ret_val(1));
 	}
-	if (cnt == 0 || (i - 1) != row)
-		return (1);
+	ft_do_bsq(file);
 	return (0);
 }
 
-int	ret_error(int nb)
-{
-	if (nb == 1)
-	{
-		write(2, "map error\n", 10);
-		return (2);
-	}
-	return (-1);
-}
+#include <stdio.h>
 
 int	main(int ac, char **av)
 {
-	char	**tab;
-	char	*str;
-	int		i;
+	unsigned long	size;
+	char			*file;
+	int				i;
 
-	i = 1;
-	str = NULL;
-	if (ac > 1)
-		str = get_file(av[i]);
-	else
-		str = get_stdin();
-	if (!str)
-		return (ret_error(1));
-	tab = ft_split(str, "\n");
-	if (check_tab(tab, ft_atoi(tab[0]), ft_strlen(tab[1])))
-		return (ret_error(1));
-	handle_matrix(ft_atoi(tab[0]), ft_strlen(tab[1]), tab);
-	tab++;
-	print_bsq(tab);
+	i = 0;
+	file = NULL;
+	if (ac == 1)
+		ft_do(file);
+	while (i++ < ac - 1)
+	{
+		size = ft_get_size(av[i]);
+		file = ft_get_file(av[i], size);
+		if (ft_strlen(file) < 9)
+			return (ft_ret_val(1));
+		if (!file)
+		{
+			free(file);
+			return (ft_ret_val(1));
+		}
+		ft_do_bsq(file);
+		if (i != (ac - 1))
+			write(1, "\n", 1);
+	}
 }

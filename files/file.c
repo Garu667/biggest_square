@@ -3,98 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmaroudi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tigondra <tigondra@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/26 14:36:51 by rmaroudi          #+#    #+#             */
-/*   Updated: 2024/08/28 20:00:55 by rmaroudi         ###   ########.fr       */
+/*   Created: 2025/07/28 14:59:08 by tigondra          #+#    #+#             */
+/*   Updated: 2025/07/30 19:42:42 by tigondra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-#include <stdio.h>
 
-int	get_size(char *filename)
+unsigned long	ft_get_size(char *filename)
 {
-	char	c;
-	int		fd;
-	int		count;
+	unsigned long	count;
+	char			c[4096];
+	int				read_value;
+	int				fd;
 
 	count = 0;
+	read_value = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (-1);
-	while (read(fd, &c, 1) > 0)
-		count++;
+	read_value = read(fd, c, 4096);
+	while (read_value > 0)
+	{
+		count += read_value;
+		read_value = read(fd, c, 4096);
+	}
 	close(fd);
 	return (count);
 }
 
-char	*get_file(char *filename)
+char	*ft_get_file(char *filename, unsigned long size)
 {
 	char	*str;
-	char	c;
-	int		i;
 	int		fd;
-	int		size;
 
-	i = 0;
-	size = get_size(filename);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	str = malloc((size + 1) * sizeof(char));
+	str = malloc(sizeof(char) * (size + 1));
 	if (!str)
 	{
 		close(fd);
 		return (NULL);
 	}
-	while (read(fd, &c, 1) > 0)
-	{
-		str[i] = c;
-		i++;
-	}
-	str[i] = 0;
+	read(fd, str, size);
+	str[size] = 0;
 	close(fd);
 	return (str);
 }
 
-char	manage_str(char *str, int nbr)
+char	*ft_realloc(char *str, int size, int new_capacity)
 {
-	int	i;
+	char	*new_str;
+	int		i;
 
+	new_str = malloc(new_capacity);
+	if (!new_str)
+	{
+		free(str);
+		return (NULL);
+	}
 	i = 0;
-	while (str[i])
+	while (i < size)
+	{
+		new_str[i] = str[i];
 		i++;
-	if (nbr == 3)
-		return (str[i - 1]);
-	if (nbr == 2)
-		return (str[i - 2]);
-	if (nbr == 1)
-		return (str[i - 3]);
-	return (0);
+	}
+	free(str);
+	return (new_str);
 }
 
-int	ft_atoi(char *str)
+char	*ft_get_stdin(void)
 {
-	int	i;
-	int	sign;
-	int	number;
+	long	bytes_read;
+	char	*str;
+	int		size;
+	int		capacity;
 
-	i = 0;
-	sign = 1;
-	number = 0;
-	while ((str[i] <= 9 && str[i] >= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	size = 0;
+	bytes_read = 1;
+	capacity = 1024;
+	str = malloc(capacity + 1);
+	if (!str)
+		return (NULL);
+	while (bytes_read > 0)
 	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
+		bytes_read = read(0, (str + size), 1024);
+		size += bytes_read;
+		if (size + 1024 > capacity)
+		{
+			capacity += 1024;
+			str = ft_realloc(str, size, capacity + 1);
+			if (!str)
+				return (NULL);
+		}
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	str[size] = '\0';
+	return (str);
+}
+
+int	ft_free_params(int *len, int *pos, int *line, char *params)
+{
+	free(len);
+	free(pos);
+	if (!line)
 	{
-		number = number * 10 + (str[i] - 48);
-		i++;
+		free(line);
+		free(params);
+		return (EXIT_FAILURE);
 	}
-	return (number * sign);
+	free(line);
+	free(params);
+	return (EXIT_SUCCESS);
 }

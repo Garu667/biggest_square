@@ -3,59 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmaroudi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tigondra <tigondra@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/27 12:37:22 by rmaroudi          #+#    #+#             */
-/*   Updated: 2024/08/28 13:05:00 by rmaroudi         ###   ########.fr       */
+/*   Created: 2025/07/28 15:30:06 by tigondra          #+#    #+#             */
+/*   Updated: 2025/07/30 19:45:00 by tigondra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
-/* ft_split.c */
-int		char_is_sep(char c, char *charset);
+#ifndef HEADER_H
+# define HEADER_H
 
-int		count_word(char *str, char *charset);
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdio.h>
 
-void	ft_strcpy(char *dest, char *src, char *charset);
-
-void	alloc_split(char **split, char *str, char *charset);
-
-char	**ft_split(char *str, char *charset);
-/* matrix.c */
-int		ft_strlen(char *str);
-
-int		**allocate_matrix(int row, int col);
-
-void	fill_matrix(int **matrix, char **tab);
-
-void	free_mat(int **matrix, int row);
-
-int		**handle_matrix(int row, int col, char **tab);
-/* algo.c */
-char	*get_stdin(void);
-
-int		**find_square(int **tab, int row, int col);
-
-void	put_square(char **tab, int x, int y, int int_max);
-
-void	search_square(int **matrix, char **tab, int row, int col);
-
-void	print_bsq(char **tab);
-/* file.c */
-int		get_size(char *filename);
-
-char	*get_file(char *filename);
-
-char	manage_str(char *str, int nbr);
-
-int		ft_atoi(char *str);
-
-void	free_mat(int **matrix, int row);
-/* main.c */
-int		check_tab(char **tab, int row, int col);
-
-int		ret_error(int nb);
-//int main(int ac, char **av);
+unsigned long	ft_get_size(char *filename);
+void			ft_print_bsq(char **grid, int len);
+void			ft_put_bsq(char **grid, char *params, int *pos, int len);
+void			ft_putstr(char *str);
+void			ft_do_bsq(char *file);
+void			ft_init(int *a, int *b, int *c, int *d);
+char			**ft_split(char *str);
+char			**ft_parse_tab(char **tab, char *str, int line, int i);
+char			*ft_get_file(char *filename, unsigned long size);
+char			*ft_get_stdin(void);
+char			*ft_get_params(char *str);
+int				*ft_search(char **grid, char *params, int *line, int *len);
+int				*ft_get_len(char **grid);
+int				ft_if(int i, int j, int *line, int prev);
+int				ft_free_params(int *len, int *pos, int *line, char *params);
+int				*ft_assign(int *pos, int line, int i, int j);
+int				ft_ret_val(int i);
+int				ft_check(char **grid, char *params, int *len);
+int				ft_bsq(char **grid);
+int				ft_free_grid(char **grid, int opt, int indx);
+int				ft_strlen(char *str);
+int				ft_min(int a, int b, int c);
+int				ft_atoi(char *str);
+#endif
