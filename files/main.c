@@ -12,12 +12,20 @@
 
 #include "header.h"
 
-int	ft_do(char *file)
+int	ft_do(char *filename, int opt)
 {
-	if (ft_strlen(file) < 9)
-		return (ft_ret_val(1));
-	file = ft_get_stdin();
-	if (!file)
+	unsigned long	size;
+	char	*file;
+
+	size = 0;
+	if (opt == 0)
+		file = ft_get_stdin();
+	if (opt > 1)
+	{
+		size = ft_get_size(filename);
+		file = ft_get_file(filename, size);
+	}
+	if (!file || ft_strlen(file) < 9)
 	{
 		free(file);
 		return (ft_ret_val(1));
@@ -26,31 +34,21 @@ int	ft_do(char *file)
 	return (0);
 }
 
-#include <stdio.h>
-
 int	main(int ac, char **av)
 {
-	unsigned long	size;
-	char			*file;
-	int				i;
+	int	i;
 
-	i = 0;
-	file = NULL;
+	i = 1;
 	if (ac == 1)
-		ft_do(file);
-	while (i++ < ac - 1)
+		ft_do("", 0);
+	else
 	{
-		size = ft_get_size(av[i]);
-		file = ft_get_file(av[i], size);
-		if (ft_strlen(file) < 9)
-			return (ft_ret_val(1));
-		if (!file)
+		while (i < ac)
 		{
-			free(file);
-			return (ft_ret_val(1));
+			ft_do(av[i], ac);
+			if (i != (ac - 1))
+				write(1, "\n", 1);
+			i++;
 		}
-		ft_do_bsq(file);
-		if (i != (ac - 1))
-			write(1, "\n", 1);
 	}
 }

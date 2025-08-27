@@ -36,19 +36,19 @@ char	*ft_get_params(char *str)
 	return (params);
 }
 
-void	ft_put_bsq(char **grid, char *params, int *pos, int len)
+void	ft_put_bsq(char **grid, char *params, t_pos pos)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (i < len)
+	while (i < pos.size)
 	{
 		j = 0;
-		while (j < len)
+		while (j < pos.size)
 		{
-			grid[pos[0] - j][pos[1] - i] = params[0];
+			grid[pos.x - j][pos.y - i] = params[0];
 			j++;
 		}
 		i++;
@@ -61,14 +61,6 @@ void	ft_init(int *a, int *b, int *c, int *d)
 	*b = -1;
 	*c = 0;
 	*d = 0;
-}
-
-int	*ft_assign(int *pos, int line, int i, int j)
-{
-	pos[0] = i;
-	pos[1] = j;
-	pos[2] = line;
-	return (pos);
 }
 
 int	ft_if(int i, int j, int *line, int prev)

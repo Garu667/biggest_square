@@ -12,27 +12,23 @@
 
 #include "header.h"
 
-int	*ft_assign_pos(void)
+void	ft_assign(t_pos *pos, int x, int y, int size)
 {
-	int	*pos;
-
-	pos = malloc(sizeof(int) * 3);
-	pos[0] = 0;
-	pos[1] = 0;
-	pos[2] = 0;
-	return (pos);
+	pos->x = x;
+	pos->y = y;
+	pos->size = size;
 }
 
-int	*ft_search(char **grid, char *params, int *line, int *len)
+t_pos	ft_search(char **grid, char *params, int *line, int *len)
 {
+	t_pos	pos;
 	int	prev;
-	int	*pos;
 	int	tmp;
 	int	i;
 	int	j;
 
+	ft_assign(&pos, 0, 0, 0);
 	ft_init(&i, &j, &prev, &tmp);
-	pos = ft_assign_pos();
 	while (++i < len[1])
 	{
 		j = -1;
@@ -44,8 +40,8 @@ int	*ft_search(char **grid, char *params, int *line, int *len)
 				line[j] = ft_if(i, j, line, prev);
 			else
 				line[j] = 0;
-			if (line[j] > pos[2])
-				pos = ft_assign(pos, line[j], i, j);
+			if (line[j] > pos.size)
+				ft_assign(&pos, i, j, line[j]);
 			prev = tmp;
 		}
 	}
@@ -80,13 +76,13 @@ int	*ft_get_len(char **grid)
 
 int	ft_bsq(char **grid)
 {
+	t_pos	pos;
 	char	*params;
 	int		*line;
-	int		*pos;
 	int		*len;
 
-	pos = NULL;
 	line = NULL;
+	ft_assign(&pos, 0, 0, 0);
 	len = ft_get_len(grid);
 	if (!len)
 		return (EXIT_FAILURE);
@@ -94,12 +90,12 @@ int	ft_bsq(char **grid)
 	grid++;
 	grid[len[1]] = NULL;
 	if (!params || ft_check(grid, params, len))
-		return (ft_free_params(len, pos, line, params));
+		return (ft_free_params(len, line, params));
 	line = malloc(sizeof(int) * len[0]);
 	if (!line)
 		return (EXIT_FAILURE);
 	pos = ft_search(grid, params, line, len);
-	ft_put_bsq(grid, params, pos, pos[2]);
+	ft_put_bsq(grid, params, pos);
 	ft_print_bsq(grid, len[0]);
-	return (ft_free_params(len, pos, line, params));
+	return (ft_free_params(len, line, params));
 }

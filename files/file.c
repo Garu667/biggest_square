@@ -104,10 +104,9 @@ char	*ft_get_stdin(void)
 	return (str);
 }
 
-int	ft_free_params(int *len, int *pos, int *line, char *params)
+int	ft_free_params(int *len, int *line, char *params)
 {
 	free(len);
-	free(pos);
 	if (!line)
 	{
 		free(line);
