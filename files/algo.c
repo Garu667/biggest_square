@@ -12,31 +12,17 @@
 
 #include "header.h"
 
-char	*ft_get_params(char *str)
+void	ft_get_params(char *str, t_params *params)
 {
-	char	*params;
-	int		i;	
-	int		j;
+	int		i;
 
-	j = 0;
 	i = ft_strlen(str) - 1;
-	params = malloc(sizeof(char) * 4);
-	if (!params)
-		return (NULL);
-	while (i > 0)
-	{
-		if (j < 3)
-		{
-			params[j] = str[i];
-			j++;
-		}
-		i--;
-	}
-	params[j] = 0;
-	return (params);
+	params->square = str[i];
+	params->wall = str[i - 1];
+	params->empty = str[i - 2];
 }
 
-void	ft_put_bsq(char **grid, char *params, t_pos pos)
+void	ft_put_bsq(char **grid, char square, t_pos pos)
 {
 	int	i;
 	int	j;
@@ -48,7 +34,7 @@ void	ft_put_bsq(char **grid, char *params, t_pos pos)
 		j = 0;
 		while (j < pos.size)
 		{
-			grid[pos.x - j][pos.y - i] = params[0];
+			grid[pos.x - j][pos.y - i] = square;
 			j++;
 		}
 		i++;

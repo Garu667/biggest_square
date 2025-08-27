@@ -44,8 +44,8 @@ char	**ft_split(char *str)
 	int		i;
 	int		line;
 
-	line = ft_count_word(str);
 	i = 0;
+	line = ft_count_word(str);
 	tab = malloc(sizeof(char *) * (line + 1));
 	if (!tab)
 	{
@@ -53,6 +53,7 @@ char	**ft_split(char *str)
 		return (NULL);
 	}
 	tab = ft_parse_tab(tab, str, line, i);
+	tab[line] = NULL;
 	return (tab);
 }
 

@@ -103,17 +103,3 @@ char	*ft_get_stdin(void)
 	str[size] = '\0';
 	return (str);
 }
-
-int	ft_free_params(int *len, int *line, char *params)
-{
-	free(len);
-	if (!line)
-	{
-		free(line);
-		free(params);
-		return (EXIT_FAILURE);
-	}
-	free(line);
-	free(params);
-	return (EXIT_SUCCESS);
-}

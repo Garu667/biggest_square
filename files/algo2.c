@@ -19,83 +19,62 @@ void	ft_assign(t_pos *pos, int x, int y, int size)
 	pos->size = size;
 }
 
-t_pos	ft_search(char **grid, char *params, int *line, int *len)
+void	ft_search(char **grid, int *line, t_bsq *bsq)
 {
-	t_pos	pos;
-	int	prev;
+	int	diag;
 	int	tmp;
 	int	i;
 	int	j;
 
-	ft_assign(&pos, 0, 0, 0);
-	ft_init(&i, &j, &prev, &tmp);
-	while (++i < len[1])
+	ft_assign(&bsq->pos, 0, 0, 0);
+	ft_init(&i, &j, &diag, &tmp);
+	while (++i < bsq->len.x)
 	{
 		j = -1;
-		prev = 0;
-		while (++j < len[0])
+		diag = 0;
+		while (++j < bsq->len.y)
 		{
 			tmp = line[j];
-			if (grid[i][j] == params[2])
-				line[j] = ft_if(i, j, line, prev);
+			if (grid[i][j] == bsq->params.empty)
+				line[j] = ft_if(i, j, line, diag);
 			else
 				line[j] = 0;
-			if (line[j] > pos.size)
-				ft_assign(&pos, i, j, line[j]);
-			prev = tmp;
+			if (line[j] > bsq->pos.size)
+				ft_assign(&bsq->pos, i, j, line[j]);
+			diag = tmp;
 		}
 	}
-	return (pos);
 }
 
-int	*ft_get_len(char **grid)
+int	ft_get_len(char **grid, t_len *len)
 {
-	int	*len;
-	int	i;
-
-	i = 0;
-	len = malloc(sizeof(int) * 2);
-	if (!len)
-		return (NULL);
-	len[1] = ft_atoi(grid[0]);
-	while (grid[i])
-		i++;
-	if (len[1] <= 0 || (i - 1) != len[1])
-	{
-		free(len);
-		return (NULL);
-	}
-	len[0] = ft_strlen(grid[1]);
-	if (len[0] <= 0)
-	{
-		free(len);
-		return (NULL);
-	}
-	return (len);
+	len->x = ft_atoi(grid[0]);
+	len->y = ft_strlen(grid[1]);
+	if (len->x <= 0 || len->y <= 0)
+		return (1);
+	return (0);
 }
 
 int	ft_bsq(char **grid)
 {
-	t_pos	pos;
-	char	*params;
+	t_bsq		bsq;
 	int		*line;
-	int		*len;
 
 	line = NULL;
-	ft_assign(&pos, 0, 0, 0);
-	len = ft_get_len(grid);
-	if (!len)
+	ft_assign(&bsq.pos, 0, 0, 0);
+	if (ft_get_len(grid, &bsq.len) != 0)
 		return (EXIT_FAILURE);
-	params = ft_get_params(grid[0]);
+	ft_get_params(grid[0], &bsq.params);
 	grid++;
-	grid[len[1]] = NULL;
-	if (!params || ft_check(grid, params, len))
-		return (ft_free_params(len, line, params));
-	line = malloc(sizeof(int) * len[0]);
-	if (!line)
+	line = malloc(sizeof(int) * bsq.len.y);
+	if (ft_check(grid, bsq.params, bsq.len) != 0 || !line)
+	{
+		free(line);
 		return (EXIT_FAILURE);
-	pos = ft_search(grid, params, line, len);
-	ft_put_bsq(grid, params, pos);
-	ft_print_bsq(grid, len[0]);
-	return (ft_free_params(len, line, params));
+	}
+	ft_search(grid, line, &bsq);
+	ft_put_bsq(grid, bsq.params.square, bsq.pos);
+	ft_print_bsq(grid, bsq.len.y);
+	free(line);
+	return (EXIT_SUCCESS);
 }

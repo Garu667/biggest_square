@@ -12,25 +12,20 @@
 
 #include "header.h"
 
-int	ft_check_char(char *params)
+int	ft_check_char(t_params params)
 {
-	int	i;
-
-	i = 0;
-	if (params[2] >= '0' && params[2] <= '9')
+	if (params.empty >= '0' && params.empty <= '9')
 		return (EXIT_FAILURE);
-	while (params[i])
-	{
-		if ((params[i] < 32 || params[i] > 126))
-			return (EXIT_FAILURE);
-		i++;
-	}
-	if (i > 3)
+	if ((params.empty < 32 || params.empty > 126))
+		return (EXIT_FAILURE);
+	if ((params.wall < 32 || params.wall > 126))
+		return (EXIT_FAILURE);
+	if ((params.square < 32 || params.square > 126))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int	ft_check_tab(char **grid, char *params, int *len)
+int	ft_check_tab(char **grid, t_params params, t_len len)
 {
 	int	i;
 	int	j;
@@ -40,26 +35,26 @@ int	ft_check_tab(char **grid, char *params, int *len)
 	while (grid[i])
 	{
 		j = 0;
-		while (grid[i][j] && j < len[0])
+		while (grid[i][j] && j < len.y)
 		{
-			if ((grid[i][j] != params[1]) && (grid[i][j] != params[2]))
+			if ((grid[i][j] != params.empty) && (grid[i][j] != params.wall))
 				return (EXIT_FAILURE);
 			j++;
 		}
-		if (j != len[0])
+		if (j != len.y)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	if (i != len[1])
+	if (i != len.x)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int	ft_check(char **grid, char *params, int *len)
+int	ft_check(char **grid, t_params params, t_len len)
 {
 	if (ft_check_char(params) != 0)
 		return (EXIT_FAILURE);
 	if (ft_check_tab(grid, params, len) != 0)
 		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (0);
 }
