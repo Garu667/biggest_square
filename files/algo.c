@@ -39,7 +39,7 @@ int	ft_if(int i, int j, int *line, int prev)
 		return (ft_min(line[j], line[j - 1], prev) + 1);
 }
 
-void	ft_search(char **grid, int *line, t_bsq *bsq)
+void	ft_search(char **tab, int *line, t_bsq *bsq)
 {
 	int	diag;
 	int	tmp;
@@ -55,7 +55,7 @@ void	ft_search(char **grid, int *line, t_bsq *bsq)
 		while (++j < bsq->len.y)
 		{
 			tmp = line[j];
-			if (grid[i][j] == bsq->params.empty)
+			if (tab[i][j] == bsq->params.empty)
 				line[j] = ft_if(i, j, line, diag);
 			else
 				line[j] = 0;

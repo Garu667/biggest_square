@@ -27,7 +27,7 @@ int	ft_get_params(char **tab, t_bsq *bsq)
 	return (0);
 }
 
-void	ft_put_bsq(char **grid, char square, t_pos pos)
+void	ft_put_bsq(char **tab, char square, t_pos pos)
 {
 	int	i;
 	int	j;
@@ -39,44 +39,44 @@ void	ft_put_bsq(char **grid, char square, t_pos pos)
 		j = 0;
 		while (j < pos.size)
 		{
-			grid[pos.x - j][pos.y - i] = square;
+			tab[pos.x - j][pos.y - i] = square;
 			j++;
 		}
 		i++;
 	}
 }
 
-void	ft_print_bsq(char **grid, int len)
+void	ft_print_bsq(char **tab, int len)
 {
 	int	i;
 
 	i = 0;
-	while (grid[i])
+	while (tab[i])
 	{
-		write(1, grid[i], len);
+		write(1, tab[i], len);
 		write(1, "\n", 1);
 		i++;
 	}
 }
 
-int	ft_bsq(char **grid)
+int	ft_bsq(char **tab)
 {
 	t_bsq		bsq;
 	int		*line;
 
 	line = NULL;
-	if (ft_get_params(grid, &bsq) != 0)
+	if (ft_get_params(tab, &bsq) != 0)
 		return (EXIT_FAILURE);
-	grid++;
+	tab++;
 	line = malloc(sizeof(int) * bsq.len.y);
-	if (ft_check(grid, bsq.params, bsq.len) != 0 || !line)
+	if (ft_check(tab, bsq.params, bsq.len) != 0 || !line)
 	{
 		free(line);
 		return (EXIT_FAILURE);
 	}
-	ft_search(grid, line, &bsq);
-	ft_put_bsq(grid, bsq.params.square, bsq.pos);
-	ft_print_bsq(grid, bsq.len.y);
+	ft_search(tab, line, &bsq);
+	ft_put_bsq(tab, bsq.params.square, bsq.pos);
+	ft_print_bsq(tab, bsq.len.y);
 	free(line);
 	return (EXIT_SUCCESS);
 }
