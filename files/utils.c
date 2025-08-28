@@ -22,18 +22,6 @@ int	ft_ret_val(int i)
 	return (0);
 }
 
-int	ft_min(int a, int b, int c)
-{
-	int	i;
-
-	i = a;
-	if (i > b)
-		i = b;
-	if (i > c)
-		i = c;
-	return (i);
-}
-
 int	ft_strlen(char *str)
 {
 	int	i;

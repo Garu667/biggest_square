@@ -19,20 +19,24 @@ void	ft_assign(t_pos *pos, int x, int y, int size)
 	pos->size = size;
 }
 
+int	ft_min(int a, int b, int c)
+{
+	int	i;
+
+	i = a;
+	if (i > b)
+		i = b;
+	if (i > c)
+		i = c;
+	return (i);
+}
+
 int	ft_if(int i, int j, int *line, int prev)
 {
 	if (i == 0 || j == 0)
 		return (1);
 	else
 		return (ft_min(line[j], line[j - 1], prev) + 1);
-}
-
-void	ft_init(int *a, int *b, int *c, int *d)
-{
-	*a = -1;
-	*b = -1;
-	*c = 0;
-	*d = 0;
 }
 
 void	ft_search(char **grid, int *line, t_bsq *bsq)
@@ -42,8 +46,8 @@ void	ft_search(char **grid, int *line, t_bsq *bsq)
 	int	i;
 	int	j;
 
+	i = -1;
 	ft_assign(&bsq->pos, 0, 0, 0);
-	ft_init(&i, &j, &diag, &tmp);
 	while (++i < bsq->len.x)
 	{
 		j = -1;
@@ -61,4 +65,3 @@ void	ft_search(char **grid, int *line, t_bsq *bsq)
 		}
 	}
 }
-

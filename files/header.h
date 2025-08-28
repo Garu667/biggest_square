@@ -54,6 +54,5 @@ int				ft_check(char **grid, t_params params, t_len len);
 int				ft_bsq(char **grid);
 int				ft_free_tab(char **tab, int opt, int indx);
 int				ft_strlen(char *str);
-int				ft_min(int a, int b, int c);
 int				ft_atoi(char *str);
 #endif
