@@ -12,6 +12,28 @@
 
 #include "header.h"
 
+int	ft_ret_val(int i)
+{
+	if (i == 1)
+	{
+		write(2, "map error\n", 10);
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_min(int a, int b, int c)
+{
+	int	i;
+
+	i = a;
+	if (i > b)
+		i = b;
+	if (i > c)
+		i = c;
+	return (i);
+}
+
 int	ft_strlen(char *str)
 {
 	int	i;
@@ -47,16 +69,4 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (nb * sign);
-}
-
-int	ft_min(int a, int b, int c)
-{
-	int	i;
-
-	i = a;
-	if (i > b)
-		i = b;
-	if (i > c)
-		i = c;
-	return (i);
 }

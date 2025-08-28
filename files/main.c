@@ -12,28 +12,6 @@
 
 #include "header.h"
 
-int	ft_do(char *filename, int opt)
-{
-	unsigned long	size;
-	char	*file;
-
-	size = 0;
-	if (opt == 0)
-		file = ft_get_stdin();
-	if (opt > 1)
-	{
-		size = ft_get_size(filename);
-		file = ft_get_file(filename, size);
-	}
-	if (!file || ft_strlen(file) < 9)
-	{
-		free(file);
-		return (ft_ret_val(1));
-	}
-	ft_do_bsq(file);
-	return (0);
-}
-
 int	main(int ac, char **av)
 {
 	int	i;

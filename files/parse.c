@@ -12,6 +12,16 @@
 
 #include "header.h"
 
+int	ft_strlen_word(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\n')
+		i++;
+	return (i);
+}
+
 int	ft_count_word(char *str)
 {
 	int	count;
@@ -28,33 +38,26 @@ int	ft_count_word(char *str)
 	return (count);
 }
 
-int	ft_strlen_word(char *str)
+int	ft_free_tab(char **tab, int opt, int indx)
 {
 	int	i;
 
-	i = 0;
-	while (str[i] != '\n')
-		i++;
-	return (i);
-}
-
-char	**ft_split(char *str)
-{
-	char	**tab;
-	int		i;
-	int		line;
-
-	i = 0;
-	line = ft_count_word(str);
-	tab = malloc(sizeof(char *) * (line + 1));
-	if (!tab)
+	i = -1;
+	if (opt == 0)
+		free(tab);
+	if (opt == 1)
 	{
-		ft_free_grid(tab, 0, 0);
-		return (NULL);
+		while (tab[++i])
+			free(tab[i]);
+		free(tab);
 	}
-	tab = ft_parse_tab(tab, str, line, i);
-	tab[line] = NULL;
-	return (tab);
+	if (opt == 2)
+	{
+		while (++i < indx)
+			free(tab[i]);
+		free(tab);
+	}
+	return (0);
 }
 
 char	**ft_parse_tab(char **tab, char *str, int line, int i)
@@ -69,7 +72,7 @@ char	**ft_parse_tab(char **tab, char *str, int line, int i)
 		tab[i] = malloc(sizeof(char) * (ft_strlen_word(&str[c]) + 1));
 		if (!tab[i])
 		{
-			ft_free_grid(tab, 2, i);
+			ft_free_tab(tab, 2, i);
 			return (NULL);
 		}
 		j = 0;
@@ -83,5 +86,24 @@ char	**ft_parse_tab(char **tab, char *str, int line, int i)
 		c++;
 		i++;
 	}
+	return (tab);
+}
+
+char	**ft_split(char *str)
+{
+	char	**tab;
+	int		i;
+	int		line;
+
+	i = 0;
+	line = ft_count_word(str);
+	tab = malloc(sizeof(char *) * (line + 1));
+	if (!tab)
+	{
+		ft_free_tab(tab, 0, 0);
+		return (NULL);
+	}
+	tab = ft_parse_tab(tab, str, line, i);
+	tab[line] = NULL;
 	return (tab);
 }

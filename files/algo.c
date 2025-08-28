@@ -12,33 +12,19 @@
 
 #include "header.h"
 
-void	ft_get_params(char *str, t_params *params)
+void	ft_assign(t_pos *pos, int x, int y, int size)
 {
-	int		i;
-
-	i = ft_strlen(str) - 1;
-	params->square = str[i];
-	params->wall = str[i - 1];
-	params->empty = str[i - 2];
+	pos->x = x;
+	pos->y = y;
+	pos->size = size;
 }
 
-void	ft_put_bsq(char **grid, char square, t_pos pos)
+int	ft_if(int i, int j, int *line, int prev)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (i < pos.size)
-	{
-		j = 0;
-		while (j < pos.size)
-		{
-			grid[pos.x - j][pos.y - i] = square;
-			j++;
-		}
-		i++;
-	}
+	if (i == 0 || j == 0)
+		return (1);
+	else
+		return (ft_min(line[j], line[j - 1], prev) + 1);
 }
 
 void	ft_init(int *a, int *b, int *c, int *d)
@@ -49,10 +35,30 @@ void	ft_init(int *a, int *b, int *c, int *d)
 	*d = 0;
 }
 
-int	ft_if(int i, int j, int *line, int prev)
+void	ft_search(char **grid, int *line, t_bsq *bsq)
 {
-	if (i == 0 || j == 0)
-		return (1);
-	else
-		return (ft_min(line[j], line[j - 1], prev) + 1);
+	int	diag;
+	int	tmp;
+	int	i;
+	int	j;
+
+	ft_assign(&bsq->pos, 0, 0, 0);
+	ft_init(&i, &j, &diag, &tmp);
+	while (++i < bsq->len.x)
+	{
+		j = -1;
+		diag = 0;
+		while (++j < bsq->len.y)
+		{
+			tmp = line[j];
+			if (grid[i][j] == bsq->params.empty)
+				line[j] = ft_if(i, j, line, diag);
+			else
+				line[j] = 0;
+			if (line[j] > bsq->pos.size)
+				ft_assign(&bsq->pos, i, j, line[j]);
+			diag = tmp;
+		}
+	}
 }
+

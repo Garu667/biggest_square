@@ -17,7 +17,6 @@ CFLAGS = -Wall -Wextra -Werror -g
 INC = -I files/header.h
 
 SRCS = files/algo.c	\
-       files/algo2.c	\
        files/bsq.c	\
        files/check.c	\
        files/parse.c	\
