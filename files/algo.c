@@ -19,24 +19,33 @@ void	ft_assign(t_pos *pos, int x, int y, int size)
 	pos->size = size;
 }
 
-int	ft_min(int a, int b, int c)
+int	ft_min(int count, ...)
 {
+	va_list	args;
+	int	min;
+	int	val;
 	int	i;
 
-	i = a;
-	if (i > b)
-		i = b;
-	if (i > c)
-		i = c;
-	return (i);
+	i = 0;
+	min = 2147483647;
+	va_start(args, count);
+	while (i < count)
+	{
+		val = va_arg(args, int);
+		if (val < min)
+			min = val;
+		i++;
+	}
+	va_end(args);
+	return (min);
 }
 
-int	ft_if(int i, int j, int *line, int prev)
+static inline int	ft_if(int i, int j, int *line, int prev)
 {
 	if (i == 0 || j == 0)
 		return (1);
 	else
-		return (ft_min(line[j], line[j - 1], prev) + 1);
+		return (ft_min(3, line[j], line[j - 1], prev) + 1);
 }
 
 void	ft_search(char **tab, int *line, t_bsq *bsq)
