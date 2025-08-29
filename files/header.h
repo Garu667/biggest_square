@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <stdio.h>
 
 typedef struct	s_pos
 {
@@ -48,11 +47,11 @@ typedef	struct	s_bsq
 void			ft_search(char **tab, int *line, t_bsq *bsq);
 void			ft_do_bsq(char *file);
 char			**ft_split(char *str);
-int				ft_do(char *filename, int opt);
-int				ft_ret_val(int i);
 int				ft_check(char **tab, t_params params, t_len len);
-int				ft_bsq(char **tab);
 int				ft_free_tab(char **tab, int opt, int indx);
+int				ft_do(char *filename, int opt);
 int				ft_strlen(char *str);
+int				ft_bsq(char **tab);
 int				ft_atoi(char *str);
+int				ft_ret_val(int i);
 #endif
